@@ -47,7 +47,8 @@ a {
 
 .hero,
 .section,
-.footer {
+.footer,
+.why-inner {
   width: min(calc(100% - 2rem), var(--max-width));
   margin: 0 auto;
 }
@@ -73,9 +74,15 @@ a {
 }
 
 .brand-logo {
-  height: 32px;
+  height: 20px;
   width: auto;
   display: block;
+}
+
+.brand-text {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
 }
 
 .topbar-links {
@@ -216,10 +223,8 @@ a {
 
 .flow-label,
 .card-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin: 0 0 1rem;
+  display: inline-block;
+  margin: 0 0 0.7rem;
   color: var(--muted);
   font-size: 0.78rem;
   font-weight: 700;
@@ -227,9 +232,11 @@ a {
   text-transform: uppercase;
 }
 
-.card-kicker svg {
-  flex-shrink: 0;
+.card-icon {
+  display: block;
+  margin-bottom: 1.1rem;
   color: var(--teal);
+  line-height: 0;
 }
 
 .flow-band {
@@ -403,7 +410,8 @@ a {
 @media (max-width: 640px) {
   .hero,
   .section,
-  .footer {
+  .footer,
+  .why-inner {
     width: min(calc(100% - 1.2rem), var(--max-width));
   }
 
@@ -626,13 +634,8 @@ a {
 /* ─── Why section ─────────────────────────────────────────── */
 
 .why-section {
-  padding: 5rem 1rem 6rem;
+  padding: 5rem 0 6rem;
   text-align: center;
-}
-
-.why-inner {
-  max-width: var(--max-width);
-  margin: 0 auto;
 }
 
 .why-phrase {
