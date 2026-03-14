@@ -442,13 +442,13 @@ a {
 .phone-hero-frame {
   position: relative;
   z-index: 1;
-  width: min(100%, 290px);
-  border-radius: 48px;
+  width: min(100%, 240px);
+  border-radius: 40px;
   overflow: hidden;
   box-shadow:
     0 0 0 1px rgba(93, 78, 68, 0.1),
-    0 40px 100px rgba(65, 49, 38, 0.2),
-    0 12px 28px rgba(65, 49, 38, 0.1);
+    0 28px 70px rgba(65, 49, 38, 0.18),
+    0 8px 20px rgba(65, 49, 38, 0.09);
 }
 
 .phone-screenshot {
@@ -457,12 +457,14 @@ a {
 }
 
 .phone-frame {
-  border-radius: 40px;
+  width: min(100%, 200px);
+  margin: 0 auto;
+  border-radius: 32px;
   overflow: hidden;
   box-shadow:
     0 0 0 1px rgba(93, 78, 68, 0.08),
-    0 28px 70px rgba(65, 49, 38, 0.16),
-    0 8px 20px rgba(65, 49, 38, 0.08);
+    0 16px 40px rgba(65, 49, 38, 0.14),
+    0 4px 12px rgba(65, 49, 38, 0.07);
 }
 
 .phone-frame img {
@@ -701,20 +703,21 @@ a {
   }
 
   .phone-hero-frame {
-    width: min(100%, 240px);
+    width: min(100%, 210px);
   }
 }
 
 @media (max-width: 640px) {
   .screenshots-grid {
     grid-template-columns: 1fr;
-    max-width: 320px;
-    margin-left: auto;
-    margin-right: auto;
+  }
+
+  .phone-frame {
+    width: min(100%, 200px);
   }
 
   .phone-hero-frame {
-    width: min(100%, 220px);
+    width: min(100%, 190px);
   }
 
   .value-item {
