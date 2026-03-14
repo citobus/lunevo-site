@@ -360,9 +360,10 @@ a {
 
 .footer {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0 0 2rem;
+  flex-direction: column;
+  gap: 1.4rem;
+  padding: 2rem 0 3rem;
+  border-top: 1px solid var(--line);
   color: var(--muted);
   font-size: 0.95rem;
 }
@@ -426,7 +427,297 @@ a {
     padding: 1.25rem;
   }
 
-  .footer {
+  .footer-top {
     flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+  }
+}
+
+/* ─── Phone frames ─────────────────────────────────────────── */
+
+.phone-hero-frame {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 290px);
+  border-radius: 48px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(93, 78, 68, 0.1),
+    0 40px 100px rgba(65, 49, 38, 0.2),
+    0 12px 28px rgba(65, 49, 38, 0.1);
+}
+
+.phone-screenshot {
+  width: 100%;
+  display: block;
+}
+
+.phone-frame {
+  border-radius: 40px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(93, 78, 68, 0.08),
+    0 28px 70px rgba(65, 49, 38, 0.16),
+    0 8px 20px rgba(65, 49, 38, 0.08);
+}
+
+.phone-frame img {
+  width: 100%;
+  display: block;
+}
+
+/* ─── Screenshots section ──────────────────────────────────── */
+
+.screenshots-section {
+  padding-bottom: 5rem;
+}
+
+.screenshots-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+
+.screenshot-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.screenshot-caption {
+  padding: 0 0.25rem;
+}
+
+.screenshot-caption strong {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
+}
+
+.screenshot-caption p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: 0.97rem;
+}
+
+/* ─── About section ────────────────────────────────────────── */
+
+.about-section {
+  padding-bottom: 6rem;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.about-copy h2 {
+  margin: 0 0 1.6rem;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.6rem, 5vw, 4.3rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 0.96;
+}
+
+.about-copy p {
+  color: var(--muted);
+  line-height: 1.75;
+  font-size: 1.02rem;
+  margin: 0 0 1.2rem;
+  max-width: 40rem;
+}
+
+.about-values {
+  display: grid;
+  gap: 1.2rem;
+  padding-top: 0.5rem;
+}
+
+.value-item {
+  padding: 1.5rem;
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius-lg);
+}
+
+.value-item strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.01em;
+}
+
+.value-item p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* ─── Footer ───────────────────────────────────────────────── */
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.footer-tagline {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.footer-links {
+  display: inline-flex;
+  gap: 1.6rem;
+  font-size: 0.9rem;
+}
+
+.footer-links a,
+.footer-links a:visited {
+  color: var(--muted);
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.footer-bottom {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+/* ─── Legal pages ──────────────────────────────────────────── */
+
+.legal-header {
+  padding: 3rem 0 2rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 3rem;
+}
+
+.legal-header .back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--teal);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 1.6rem;
+  transition: transform 180ms ease;
+}
+
+.legal-header .back-link:hover {
+  transform: translateX(-3px);
+}
+
+.legal-header h1 {
+  margin: 0 0 0.5rem;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.legal-header .legal-date {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.legal-body {
+  max-width: 720px;
+  padding-bottom: 6rem;
+}
+
+.legal-body h2 {
+  margin: 2.8rem 0 0.8rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.legal-body h2:first-child {
+  margin-top: 0;
+}
+
+.legal-body p,
+.legal-body li {
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 1rem;
+  margin: 0 0 0.9rem;
+}
+
+.legal-body ul {
+  padding-left: 1.4rem;
+  margin: 0 0 0.9rem;
+}
+
+.legal-body li {
+  margin: 0 0 0.4rem;
+}
+
+.legal-body a {
+  color: var(--teal);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ─── Responsive additions ─────────────────────────────────── */
+
+@media (max-width: 920px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .phone-hero-frame {
+    width: min(100%, 240px);
+  }
+}
+
+@media (max-width: 640px) {
+  .screenshots-grid {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .phone-hero-frame {
+    width: min(100%, 220px);
+  }
+
+  .value-item {
+    padding: 1.25rem;
   }
 }
