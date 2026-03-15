@@ -74,9 +74,12 @@ a {
 }
 
 .brand-logo {
-  height: 20px;
-  width: auto;
+  width: clamp(40px, 4.4vw, 56px);
+  height: clamp(40px, 4.4vw, 56px);
   display: block;
+  flex-shrink: 0;
+  object-fit: cover;
+  object-position: center;
 }
 
 .brand-text {
