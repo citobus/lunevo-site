@@ -18,3 +18,12 @@ revealElements.forEach((element) => {
   element.classList.add("reveal");
   observer.observe(element);
 });
+
+const appStoreBadgeLink = document.getElementById("app-store-badge-link");
+
+if (appStoreBadgeLink) {
+  appStoreBadgeLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    alert("This app is still in development, please check back soon.");
+  });
+}
