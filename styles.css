@@ -146,6 +146,12 @@ a {
   margin-top: 1.8rem;
 }
 
+#app-store-badge-link img {
+  width: 220px;
+  height: auto;
+  display: block;
+}
+
 .button {
   display: inline-flex;
   align-items: center;
