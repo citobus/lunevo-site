@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>lunevo Admin — Messages</title>
+  <title>lunevo Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -30,27 +30,87 @@
   <main class="admin-main">
     <div class="admin-content">
 
-      <!-- Page title + New button -->
-      <div class="page-row">
-        <div>
-          <h1 class="page-title">Broadcast Messages</h1>
-          <p class="page-desc">Send a message to all app users. Messages appear as a full-screen overlay when the app opens.</p>
-        </div>
-        <button id="btn-new" class="btn-primary">+ New Message</button>
+      <!-- Tab navigation -->
+      <div class="tab-nav">
+        <button class="tab-btn tab-active" data-tab="messages">Broadcast Messages</button>
+        <button class="tab-btn" data-tab="notifications">Push Notifications</button>
       </div>
 
       <!-- Toast -->
       <div id="toast" class="toast" hidden></div>
 
-      <!-- Message list -->
-      <div id="message-list" class="message-list">
-        <div class="loading-state">Loading messages…</div>
+      <!-- ═══════════════════ TAB: Broadcast Messages ═══════════════════ -->
+      <div id="tab-messages" class="tab-panel">
+        <div class="page-row">
+          <div>
+            <h1 class="page-title">Broadcast Messages</h1>
+            <p class="page-desc">Send a message to all app users. Messages appear as a full-screen overlay when the app opens.</p>
+          </div>
+          <button id="btn-new" class="btn-primary">+ New Message</button>
+        </div>
+
+        <div id="message-list" class="message-list">
+          <div class="loading-state">Loading messages…</div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════ TAB: Push Notifications ═══════════════════ -->
+      <div id="tab-notifications" class="tab-panel" hidden>
+        <div class="page-row">
+          <div>
+            <h1 class="page-title">Push Notifications</h1>
+            <p class="page-desc">Send a push notification to all users with notifications enabled. Delivered instantly to their device.</p>
+          </div>
+        </div>
+
+        <!-- Stats cards -->
+        <div class="stats-row" id="notif-stats">
+          <div class="stat-card">
+            <div class="stat-value" id="stat-devices">—</div>
+            <div class="stat-label">Registered Devices</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-enabled">—</div>
+            <div class="stat-label">Notifications Enabled</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-disabled">—</div>
+            <div class="stat-label">Notifications Disabled</div>
+          </div>
+        </div>
+
+        <!-- Send form -->
+        <div class="notif-send-card">
+          <h3 class="notif-send-title">Send Push Notification</h3>
+          <form id="notif-form" class="message-form" novalidate>
+            <div class="field">
+              <label for="notif-title">Title <span class="required">*</span></label>
+              <input type="text" id="notif-title" placeholder="e.g. New feature available!" maxlength="100" required>
+            </div>
+            <div class="field">
+              <label for="notif-body">Body <span class="required">*</span></label>
+              <textarea id="notif-body" rows="3" placeholder="Write the notification message…" maxlength="256" required></textarea>
+            </div>
+            <div id="notif-form-error" class="form-error" hidden></div>
+            <div class="form-actions">
+              <button type="submit" id="btn-notif-send" class="btn-primary">Send to All Users</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Recent log -->
+        <div class="notif-log-section">
+          <h3 class="notif-log-title">Recent Notification Log</h3>
+          <div id="notif-log" class="message-list">
+            <div class="loading-state">Loading log…</div>
+          </div>
+        </div>
       </div>
 
     </div>
   </main>
 
-  <!-- Message form modal -->
+  <!-- Message form modal (broadcast messages) -->
   <div id="modal-overlay" class="modal-overlay" hidden>
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-header">
@@ -133,6 +193,21 @@
 
     document.getElementById('btn-signout').addEventListener('click', () => signOut(auth));
 
+    // ── Tab navigation ──────────────────────────────────────────────────────────
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.hidden = true);
+        btn.classList.add('tab-active');
+        const panel = document.getElementById(`tab-${btn.dataset.tab}`);
+        panel.hidden = false;
+        if (btn.dataset.tab === 'notifications') {
+          loadNotifStats();
+          loadNotifLog();
+        }
+      });
+    });
+
     // ── API helpers ────────────────────────────────────────────────────────────
     async function apiFetch(path, options = {}) {
       const user = auth.currentUser;
@@ -161,7 +236,10 @@
       setTimeout(() => { el.hidden = true; }, 4000);
     }
 
-    // ── Load messages ──────────────────────────────────────────────────────────
+    // ══════════════════════════════════════════════════════════════════════════
+    // BROADCAST MESSAGES
+    // ══════════════════════════════════════════════════════════════════════════
+
     async function loadMessages() {
       const list = document.getElementById('message-list');
       try {
@@ -326,6 +404,107 @@
         loadMessages();
       } catch (err) { showToast(err.message, true); }
     };
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // PUSH NOTIFICATIONS
+    // ══════════════════════════════════════════════════════════════════════════
+
+    async function loadNotifStats() {
+      try {
+        const data = await apiFetch('/admin/notifications/stats');
+        document.getElementById('stat-devices').textContent = data.totalDevices;
+        document.getElementById('stat-enabled').textContent = data.notificationsEnabled;
+        document.getElementById('stat-disabled').textContent = data.notificationsDisabled;
+      } catch (err) {
+        console.error('Failed to load notification stats:', err);
+      }
+    }
+
+    async function loadNotifLog() {
+      const container = document.getElementById('notif-log');
+      try {
+        const data = await apiFetch('/admin/notifications/log?limit=30');
+        renderNotifLog(data.logs);
+      } catch (err) {
+        container.innerHTML = `<div class="empty-state error-state">${err.message}</div>`;
+      }
+    }
+
+    function renderNotifLog(logs) {
+      const container = document.getElementById('notif-log');
+      if (!logs.length) {
+        container.innerHTML = '<div class="empty-state">No notifications sent yet.</div>';
+        return;
+      }
+      container.innerHTML = logs.map(l => `
+        <div class="message-card notif-log-card">
+          <div class="message-card-header">
+            <div class="message-title-row">
+              <span class="message-title">${escHtml(l.title)}</span>
+              <span class="badge badge-${notifTypeBadge(l.type)}">${notifTypeLabel(l.type)}</span>
+            </div>
+            <div class="message-meta">
+              ${formatDate(l.createdAt)}
+              ${l.triggeredBy ? ` · by ${escHtml(l.triggeredBy)}` : ''}
+              · Sent: ${l.sentCount ?? 0}${l.failedCount ? ` · Failed: ${l.failedCount}` : ''}
+            </div>
+          </div>
+          <p class="message-body-preview">${escHtml(l.body || '')}</p>
+        </div>
+      `).join('');
+    }
+
+    function notifTypeBadge(type) {
+      if (type === 'admin_manual') return 'live';
+      if (type === 'checkin_reminder') return 'scheduled';
+      if (type === 'insight_available') return 'insight';
+      return 'archived';
+    }
+
+    function notifTypeLabel(type) {
+      if (type === 'admin_manual') return 'Manual';
+      if (type === 'checkin_reminder') return 'Reminder';
+      if (type === 'insight_available') return 'Insight';
+      return type;
+    }
+
+    // ── Send push notification ─────────────────────────────────────────────────
+    document.getElementById('notif-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const title = document.getElementById('notif-title').value.trim();
+      const body = document.getElementById('notif-body').value.trim();
+
+      const errEl = document.getElementById('notif-form-error');
+      if (!title || !body) {
+        errEl.textContent = 'Title and body are required.';
+        errEl.hidden = false;
+        return;
+      }
+      errEl.hidden = true;
+
+      if (!confirm(`Send this push notification to all users?\n\n"${title}"\n${body}`)) return;
+
+      const btn = document.getElementById('btn-notif-send');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      try {
+        const result = await apiFetch('/admin/notifications/send', {
+          method: 'POST',
+          body: JSON.stringify({ title, body }),
+        });
+        showToast(`Notification sent to ${result.sent} device(s).`);
+        document.getElementById('notif-form').reset();
+        loadNotifStats();
+        loadNotifLog();
+      } catch (err) {
+        errEl.textContent = err.message;
+        errEl.hidden = false;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send to All Users';
+      }
+    });
 
     // ── Helpers ────────────────────────────────────────────────────────────────
     function escHtml(str) {

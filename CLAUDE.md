@@ -32,7 +32,7 @@ Static marketing/legal site. No build step. Pure HTML + CSS + JS.
 | `media/` | App screenshots (Flow, Trends, Insights views) |
 | `WEBSITE.md` | Design rules, content guidelines, section breakdown |
 | `adminportal/index.html` | Admin login page (Google Sign-In via Firebase) |
-| `adminportal/dashboard.html` | Broadcast message management (create, edit, archive, delete, schedule) |
+| `adminportal/dashboard.html` | Admin dashboard: Broadcast Messages tab + Push Notifications tab |
 | `adminportal/admin.css` | Admin portal styles (separate from main styles.css) |
 
 ## Admin Portal
@@ -40,7 +40,7 @@ Static marketing/legal site. No build step. Pure HTML + CSS + JS.
 **URL:** `lunevoapp.com/adminportal/`
 **Auth:** Firebase Google Sign-In — only emails in the backend `ADMIN_EMAILS` env var can use the API
 **Firebase config** is embedded directly in both admin HTML files (Web SDK v12.10.0 via CDN, no build step)
-**Calls:** Railway backend `/admin/messages` endpoints with Firebase Bearer token
+**Calls:** Railway backend `/admin/messages` and `/admin/notifications` endpoints with Firebase Bearer token
 - Do not add Firebase config to any other files — it's intentionally scoped to the admin portal
 
 ## Design System

@@ -488,6 +488,98 @@ button { font-family: inherit; cursor: pointer; }
   padding-top: 0.25rem;
 }
 
+/* ── Tabs ────────────────────────────────────────────────────────────────── */
+.tab-nav {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 2rem;
+  border-bottom: 1.5px solid rgba(93,78,68,0.10);
+  padding-bottom: 0;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 2.5px solid transparent;
+  padding: 0.7rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #6f6863;
+  transition: color 0.15s, border-color 0.15s;
+  margin-bottom: -1.5px;
+}
+.tab-btn:hover { color: #332f2f; }
+.tab-active {
+  color: #6ba5a0;
+  border-bottom-color: #6ba5a0;
+}
+
+.tab-panel { animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── Stats row ───────────────────────────────────────────────────────────── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: rgba(255,255,255,0.92);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 2px 16px rgba(65,49,38,0.05);
+  border: 1px solid rgba(93,78,68,0.08);
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #332f2f;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6f6863;
+  margin-top: 0.25rem;
+}
+
+/* ── Notification send card ──────────────────────────────────────────────── */
+.notif-send-card {
+  background: rgba(255,255,255,0.92);
+  border-radius: 20px;
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 2px 20px rgba(65,49,38,0.06);
+  border: 1px solid rgba(93,78,68,0.08);
+  margin-bottom: 2rem;
+}
+
+.notif-send-title {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #332f2f;
+}
+
+/* ── Notification log ────────────────────────────────────────────────────── */
+.notif-log-section { margin-top: 0.5rem; }
+
+.notif-log-title {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #332f2f;
+}
+
+.notif-log-card { padding: 1.2rem 1.5rem; }
+
+.badge-insight { background: rgba(155,89,182,0.15); color: #7d3c98; }
+
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 600px) {
   .page-row { flex-direction: column; }

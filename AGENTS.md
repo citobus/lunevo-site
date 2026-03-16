@@ -31,6 +31,9 @@ Static marketing/legal site. No build step. Pure HTML + CSS + JS.
 | `script.js` | Scroll animations |
 | `media/` | App screenshots (Flow, Trends, Insights views) |
 | `WEBSITE.md` | Design rules, content guidelines, section breakdown |
+| `adminportal/index.html` | Admin login page (Google Sign-In via Firebase) |
+| `adminportal/dashboard.html` | Admin dashboard: Broadcast Messages tab + Push Notifications tab |
+| `adminportal/admin.css` | Admin portal styles |
 
 ## Design System
 
