@@ -17,6 +17,7 @@ Static marketing/legal site. No build step. Pure HTML + CSS + JS.
 **Live at:** https://www.lunevoapp.com
 **GitHub:** https://github.com/citobus/lunevo-site
 **Domain:** `lunevoapp.com` via Porkbun
+**Official support email:** `support@lunevoapp.com`
 **DNS/CDN:** Cloudflare (proxied — HTTPS, caching handled automatically)
 **Hosting:** Cloudflare Pages (connected to `citobus/lunevo-site` GitHub repo — push to deploy)
 
