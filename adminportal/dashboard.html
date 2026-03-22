@@ -12,7 +12,6 @@
 </head>
 <body>
 
-  <!-- Top bar -->
   <header class="admin-header">
     <div class="admin-header-inner">
       <div class="admin-brand">
@@ -26,20 +25,17 @@
     </div>
   </header>
 
-  <!-- Main content -->
   <main class="admin-main">
     <div class="admin-content">
 
-      <!-- Tab navigation -->
       <div class="tab-nav">
         <button class="tab-btn tab-active" data-tab="messages">Broadcast Messages</button>
         <button class="tab-btn" data-tab="notifications">Push Notifications</button>
+        <button class="tab-btn" data-tab="users">Users & Usage</button>
       </div>
 
-      <!-- Toast -->
       <div id="toast" class="toast" hidden></div>
 
-      <!-- ═══════════════════ TAB: Broadcast Messages ═══════════════════ -->
       <div id="tab-messages" class="tab-panel">
         <div class="page-row">
           <div>
@@ -50,11 +46,10 @@
         </div>
 
         <div id="message-list" class="message-list">
-          <div class="loading-state">Loading messages…</div>
+          <div class="loading-state">Loading messages...</div>
         </div>
       </div>
 
-      <!-- ═══════════════════ TAB: Push Notifications ═══════════════════ -->
       <div id="tab-notifications" class="tab-panel" hidden>
         <div class="page-row">
           <div>
@@ -63,23 +58,21 @@
           </div>
         </div>
 
-        <!-- Stats cards -->
         <div class="stats-row" id="notif-stats">
           <div class="stat-card">
-            <div class="stat-value" id="stat-devices">—</div>
+            <div class="stat-value" id="stat-devices">-</div>
             <div class="stat-label">Registered Devices</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value" id="stat-enabled">—</div>
+            <div class="stat-value" id="stat-enabled">-</div>
             <div class="stat-label">Notifications Enabled</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value" id="stat-disabled">—</div>
+            <div class="stat-value" id="stat-disabled">-</div>
             <div class="stat-label">Notifications Disabled</div>
           </div>
         </div>
 
-        <!-- Send form -->
         <div class="notif-send-card">
           <h3 class="notif-send-title">Send Push Notification</h3>
           <form id="notif-form" class="message-form" novalidate>
@@ -89,7 +82,7 @@
             </div>
             <div class="field">
               <label for="notif-body">Body <span class="required">*</span></label>
-              <textarea id="notif-body" rows="3" placeholder="Write the notification message…" maxlength="256" required></textarea>
+              <textarea id="notif-body" rows="3" placeholder="Write the notification message..." maxlength="256" required></textarea>
             </div>
             <div id="notif-form-error" class="form-error" hidden></div>
             <div class="form-actions">
@@ -98,11 +91,203 @@
           </form>
         </div>
 
-        <!-- Recent log -->
         <div class="notif-log-section">
           <h3 class="notif-log-title">Recent Notification Log</h3>
           <div id="notif-log" class="message-list">
-            <div class="loading-state">Loading log…</div>
+            <div class="loading-state">Loading log...</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-users" class="tab-panel" hidden>
+        <div class="page-row">
+          <div>
+            <h1 class="page-title">Users & Usage</h1>
+            <p class="page-desc">Monitor account health, subscription status, and API activity. Update profile fields, disable accounts, or permanently delete users.</p>
+          </div>
+          <button id="btn-users-refresh" class="btn-outline">Refresh Data</button>
+        </div>
+
+        <div class="stats-row" id="users-stats">
+          <div class="stat-card">
+            <div class="stat-value" id="u-stat-total">-</div>
+            <div class="stat-label">Total Users</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="u-stat-active-sub">-</div>
+            <div class="stat-label">Active Subscriptions</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="u-stat-expired-sub">-</div>
+            <div class="stat-label">Expired Subscriptions</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="u-stat-no-sub">-</div>
+            <div class="stat-label">No Subscription</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="u-stat-active-7d">-</div>
+            <div class="stat-label">Active in Last 7d</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="u-stat-new-7d">-</div>
+            <div class="stat-label">New Accounts 7d</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="u-stat-api-7d">-</div>
+            <div class="stat-label">Tracked API Calls 7d</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="u-stat-api-30d">-</div>
+            <div class="stat-label">Tracked API Calls 30d</div>
+          </div>
+        </div>
+
+        <p id="users-tracking-note" class="tracking-note" hidden></p>
+
+        <div class="filter-card">
+          <div class="filters-grid">
+            <div class="field">
+              <label for="users-search">Search (email, name, uid)</label>
+              <input type="text" id="users-search" placeholder="Search users...">
+            </div>
+            <div class="field">
+              <label for="users-sub-filter">Subscription Filter</label>
+              <select id="users-sub-filter">
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="expired">Expired</option>
+                <option value="none">None</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="users-limit">Show</label>
+              <select id="users-limit">
+                <option value="25">25 users</option>
+                <option value="50" selected>50 users</option>
+                <option value="100">100 users</option>
+              </select>
+            </div>
+          </div>
+          <div class="filter-actions">
+            <button id="btn-users-apply" class="btn-primary">Apply Filters</button>
+          </div>
+        </div>
+
+        <div id="users-list" class="message-list">
+          <div class="loading-state">Loading users...</div>
+        </div>
+
+        <div id="user-detail-shell" class="user-detail-shell" hidden>
+          <div class="user-detail-header">
+            <div>
+              <h3 id="detail-name" class="user-detail-title">User Details</h3>
+              <p id="detail-subtitle" class="user-detail-subtitle"></p>
+            </div>
+            <div class="user-detail-header-actions">
+              <button id="btn-detail-refresh" class="btn-outline btn-sm">Refresh User</button>
+              <button id="btn-delete-user" class="btn-danger btn-sm">Delete Account</button>
+            </div>
+          </div>
+
+          <div class="detail-metrics-grid">
+            <div class="detail-metric-card"><span class="detail-metric-label">Tracked Requests</span><strong id="d-metric-tracked">-</strong></div>
+            <div class="detail-metric-card"><span class="detail-metric-label">Requests (7d)</span><strong id="d-metric-7d">-</strong></div>
+            <div class="detail-metric-card"><span class="detail-metric-label">Requests (30d)</span><strong id="d-metric-30d">-</strong></div>
+            <div class="detail-metric-card"><span class="detail-metric-label">Errors (30d)</span><strong id="d-metric-errors">-</strong></div>
+            <div class="detail-metric-card"><span class="detail-metric-label">Avg Duration</span><strong id="d-metric-duration">-</strong></div>
+            <div class="detail-metric-card"><span class="detail-metric-label">Check-ins</span><strong id="d-metric-checkins">-</strong></div>
+            <div class="detail-metric-card"><span class="detail-metric-label">Insights</span><strong id="d-metric-insights">-</strong></div>
+            <div class="detail-metric-card"><span class="detail-metric-label">Devices</span><strong id="d-metric-devices">-</strong></div>
+          </div>
+
+          <form id="user-edit-form" class="message-form user-edit-form" novalidate>
+            <div class="form-grid">
+              <div class="field">
+                <label for="detail-first-name">First Name</label>
+                <input type="text" id="detail-first-name" maxlength="100">
+              </div>
+              <div class="field">
+                <label for="detail-last-name">Last Name</label>
+                <input type="text" id="detail-last-name" maxlength="100">
+              </div>
+              <div class="field">
+                <label for="detail-gender">Gender</label>
+                <select id="detail-gender">
+                  <option value="">Unset</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="detail-dob">Date of Birth</label>
+                <input type="date" id="detail-dob">
+              </div>
+              <div class="field">
+                <label for="detail-sub-status">Subscription Status</label>
+                <select id="detail-sub-status">
+                  <option value="none">None</option>
+                  <option value="active">Active</option>
+                  <option value="expired">Expired</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="detail-sub-product">Subscription Product ID</label>
+                <input type="text" id="detail-sub-product" placeholder="com.citostudio.lunevo.premium.monthly">
+              </div>
+              <div class="field">
+                <label for="detail-checkin-frequency">Check-in Reminder Frequency</label>
+                <select id="detail-checkin-frequency">
+                  <option value="often">Often</option>
+                  <option value="infrequent">Infrequent</option>
+                  <option value="never">Never</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="detail-insights-frequency">Insights Frequency</label>
+                <select id="detail-insights-frequency">
+                  <option value="often">Often</option>
+                  <option value="infrequent">Infrequent</option>
+                  <option value="never">Never</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="toggle-row">
+              <label class="toggle-item">
+                <input type="checkbox" id="detail-onboarding">
+                <span>Onboarding Complete</span>
+              </label>
+              <label class="toggle-item">
+                <input type="checkbox" id="detail-notif-enabled">
+                <span>Notifications Enabled</span>
+              </label>
+              <label class="toggle-item">
+                <input type="checkbox" id="detail-account-disabled">
+                <span>Account Disabled</span>
+              </label>
+            </div>
+
+            <div id="user-form-error" class="form-error" hidden></div>
+            <div class="form-actions">
+              <button type="submit" id="btn-user-save" class="btn-primary">Save Account Changes</button>
+            </div>
+          </form>
+
+          <div class="data-section">
+            <h4 class="data-title">Endpoint Usage (Top 12, Last 30d)</h4>
+            <div id="detail-endpoint-breakdown"></div>
+          </div>
+
+          <div class="data-section">
+            <h4 class="data-title">Recent API Requests</h4>
+            <div id="detail-recent-requests"></div>
+          </div>
+
+          <div class="data-section">
+            <h4 class="data-title">Registered Devices</h4>
+            <div id="detail-devices"></div>
           </div>
         </div>
       </div>
@@ -110,12 +295,11 @@
     </div>
   </main>
 
-  <!-- Message form modal (broadcast messages) -->
   <div id="modal-overlay" class="modal-overlay" hidden>
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-header">
         <h2 id="modal-title" class="modal-title">New Message</h2>
-        <button id="btn-modal-close" class="btn-icon" aria-label="Close">✕</button>
+        <button id="btn-modal-close" class="btn-icon" aria-label="Close">X</button>
       </div>
 
       <form id="message-form" class="message-form" novalidate>
@@ -142,7 +326,6 @@
           <input type="datetime-local" id="field-scheduled">
         </div>
 
-        <!-- Preview -->
         <div class="field">
           <label>Preview</label>
           <div id="body-preview" class="body-preview"></div>
@@ -158,7 +341,6 @@
     </div>
   </div>
 
-  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js';
     import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js';
@@ -174,13 +356,12 @@
     };
 
     const API = 'https://lunevo-app-production.up.railway.app';
-
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-
     let currentToken = null;
+    let usersLoaded = false;
+    let selectedUserUid = null;
 
-    // ── Auth guard ─────────────────────────────────────────────────────────────
     onAuthStateChanged(auth, async user => {
       if (!user) {
         window.location.href = './index.html';
@@ -193,22 +374,25 @@
 
     document.getElementById('btn-signout').addEventListener('click', () => signOut(auth));
 
-    // ── Tab navigation ──────────────────────────────────────────────────────────
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        const tab = btn.dataset.tab;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active'));
-        document.querySelectorAll('.tab-panel').forEach(p => p.hidden = true);
+        document.querySelectorAll('.tab-panel').forEach(p => { p.hidden = true; });
         btn.classList.add('tab-active');
-        const panel = document.getElementById(`tab-${btn.dataset.tab}`);
-        panel.hidden = false;
-        if (btn.dataset.tab === 'notifications') {
+        document.getElementById(`tab-${tab}`).hidden = false;
+
+        if (tab === 'notifications') {
           loadNotifStats();
           loadNotifLog();
+        }
+
+        if (tab === 'users' && !usersLoaded) {
+          refreshUsersDashboard();
         }
       });
     });
 
-    // ── API helpers ────────────────────────────────────────────────────────────
     async function apiFetch(path, options = {}) {
       const user = auth.currentUser;
       if (user) currentToken = await user.getIdToken();
@@ -220,33 +404,31 @@
           ...(options.headers || {}),
         },
       });
+
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         throw new Error(err.error || `HTTP ${res.status}`);
       }
+
       return res.json();
     }
 
-    // ── Toast ──────────────────────────────────────────────────────────────────
-    function showToast(msg, isError = false) {
+    function showToast(message, isError = false) {
       const el = document.getElementById('toast');
-      el.textContent = msg;
-      el.className = 'toast' + (isError ? ' toast-error' : ' toast-success');
+      el.textContent = message;
+      el.className = `toast ${isError ? 'toast-error' : 'toast-success'}`;
       el.hidden = false;
       setTimeout(() => { el.hidden = true; }, 4000);
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // BROADCAST MESSAGES
-    // ══════════════════════════════════════════════════════════════════════════
-
+    // Broadcast Messages -----------------------------------------------------
     async function loadMessages() {
       const list = document.getElementById('message-list');
       try {
         const data = await apiFetch('/admin/messages');
-        renderMessages(data.messages);
+        renderMessages(data.messages || []);
       } catch (err) {
-        list.innerHTML = `<div class="empty-state error-state">${err.message}</div>`;
+        list.innerHTML = `<div class="empty-state error-state">${escHtml(err.message)}</div>`;
       }
     }
 
@@ -256,6 +438,7 @@
         list.innerHTML = '<div class="empty-state">No messages yet. Create your first broadcast message.</div>';
         return;
       }
+
       list.innerHTML = messages.map(m => `
         <div class="message-card" data-id="${m.id}">
           <div class="message-card-header">
@@ -270,7 +453,7 @@
               ${m.createdBy ? ` · by ${escHtml(m.createdBy)}` : ''}
             </div>
           </div>
-          <p class="message-body-preview">${escHtml(m.body.substring(0, 160))}${m.body.length > 160 ? '…' : ''}</p>
+          <p class="message-body-preview">${escHtml((m.body || '').substring(0, 160))}${(m.body || '').length > 160 ? '...' : ''}</p>
           <div class="message-actions">
             <button class="btn-sm btn-outline" onclick="editMessage('${m.id}')">Edit</button>
             ${m.status === 'published'
@@ -283,30 +466,30 @@
       `).join('');
     }
 
-    // ── Create / Edit ──────────────────────────────────────────────────────────
     document.getElementById('btn-new').addEventListener('click', () => openModal());
 
     window.editMessage = async (id) => {
       try {
         const data = await apiFetch('/admin/messages');
-        const m = data.messages.find(x => x.id === id);
-        if (m) openModal(m);
-      } catch (err) { showToast(err.message, true); }
+        const message = (data.messages || []).find(item => item.id === id);
+        if (message) openModal(message);
+      } catch (err) {
+        showToast(err.message, true);
+      }
     };
 
     function openModal(message = null) {
       document.getElementById('modal-title').textContent = message ? 'Edit Message' : 'New Message';
       document.getElementById('btn-form-submit').textContent = message ? 'Save Changes' : 'Send Message';
-      document.getElementById('edit-id').value = message?.id ?? '';
-      document.getElementById('field-title').value = message?.title ?? '';
-      document.getElementById('field-body').value = message?.body ?? '';
+      document.getElementById('edit-id').value = message?.id || '';
+      document.getElementById('field-title').value = message?.title || '';
+      document.getElementById('field-body').value = message?.body || '';
       document.getElementById('field-scheduled').value = message?.scheduledAt
         ? toDatetimeLocal(new Date(message.scheduledAt))
         : '';
       document.getElementById('form-error').hidden = true;
       updatePreview();
       document.getElementById('modal-overlay').hidden = false;
-      document.getElementById('field-title').focus();
     }
 
     function closeModal() {
@@ -319,7 +502,6 @@
     document.getElementById('modal-overlay').addEventListener('click', e => {
       if (e.target === document.getElementById('modal-overlay')) closeModal();
     });
-
     document.getElementById('field-body').addEventListener('input', updatePreview);
 
     function updatePreview() {
@@ -345,7 +527,7 @@
 
       const btn = document.getElementById('btn-form-submit');
       btn.disabled = true;
-      btn.textContent = 'Saving…';
+      btn.textContent = 'Saving...';
 
       try {
         if (id) {
@@ -359,7 +541,7 @@
             method: 'POST',
             body: JSON.stringify({ title, body, scheduledAt }),
           });
-          showToast('Message sent!');
+          showToast('Message sent.');
         }
         closeModal();
         loadMessages();
@@ -372,7 +554,6 @@
       }
     });
 
-    // ── Archive / Publish / Delete ─────────────────────────────────────────────
     window.archiveMessage = async (id) => {
       if (!confirm('Archive this message? It will no longer be shown to users.')) return;
       try {
@@ -382,7 +563,9 @@
         });
         showToast('Message archived.');
         loadMessages();
-      } catch (err) { showToast(err.message, true); }
+      } catch (err) {
+        showToast(err.message, true);
+      }
     };
 
     window.publishMessage = async (id) => {
@@ -393,7 +576,9 @@
         });
         showToast('Message published.');
         loadMessages();
-      } catch (err) { showToast(err.message, true); }
+      } catch (err) {
+        showToast(err.message, true);
+      }
     };
 
     window.deleteMessage = async (id) => {
@@ -402,19 +587,18 @@
         await apiFetch(`/admin/messages/${id}`, { method: 'DELETE' });
         showToast('Message deleted.');
         loadMessages();
-      } catch (err) { showToast(err.message, true); }
+      } catch (err) {
+        showToast(err.message, true);
+      }
     };
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // PUSH NOTIFICATIONS
-    // ══════════════════════════════════════════════════════════════════════════
-
+    // Notifications ----------------------------------------------------------
     async function loadNotifStats() {
       try {
         const data = await apiFetch('/admin/notifications/stats');
-        document.getElementById('stat-devices').textContent = data.totalDevices;
-        document.getElementById('stat-enabled').textContent = data.notificationsEnabled;
-        document.getElementById('stat-disabled').textContent = data.notificationsDisabled;
+        document.getElementById('stat-devices').textContent = formatNumber(data.totalDevices);
+        document.getElementById('stat-enabled').textContent = formatNumber(data.notificationsEnabled);
+        document.getElementById('stat-disabled').textContent = formatNumber(data.notificationsDisabled);
       } catch (err) {
         console.error('Failed to load notification stats:', err);
       }
@@ -424,9 +608,9 @@
       const container = document.getElementById('notif-log');
       try {
         const data = await apiFetch('/admin/notifications/log?limit=30');
-        renderNotifLog(data.logs);
+        renderNotifLog(data.logs || []);
       } catch (err) {
-        container.innerHTML = `<div class="empty-state error-state">${err.message}</div>`;
+        container.innerHTML = `<div class="empty-state error-state">${escHtml(err.message)}</div>`;
       }
     }
 
@@ -440,13 +624,13 @@
         <div class="message-card notif-log-card">
           <div class="message-card-header">
             <div class="message-title-row">
-              <span class="message-title">${escHtml(l.title)}</span>
+              <span class="message-title">${escHtml(l.title || '')}</span>
               <span class="badge badge-${notifTypeBadge(l.type)}">${notifTypeLabel(l.type)}</span>
             </div>
             <div class="message-meta">
               ${formatDate(l.createdAt)}
               ${l.triggeredBy ? ` · by ${escHtml(l.triggeredBy)}` : ''}
-              · Sent: ${l.sentCount ?? 0}${l.failedCount ? ` · Failed: ${l.failedCount}` : ''}
+              · Sent: ${formatNumber(l.sentCount || 0)}${l.failedCount ? ` · Failed: ${formatNumber(l.failedCount)}` : ''}
             </div>
           </div>
           <p class="message-body-preview">${escHtml(l.body || '')}</p>
@@ -465,16 +649,15 @@
       if (type === 'admin_manual') return 'Manual';
       if (type === 'checkin_reminder') return 'Reminder';
       if (type === 'insight_available') return 'Insight';
-      return type;
+      return type || 'Other';
     }
 
-    // ── Send push notification ─────────────────────────────────────────────────
     document.getElementById('notif-form').addEventListener('submit', async e => {
       e.preventDefault();
       const title = document.getElementById('notif-title').value.trim();
       const body = document.getElementById('notif-body').value.trim();
-
       const errEl = document.getElementById('notif-form-error');
+
       if (!title || !body) {
         errEl.textContent = 'Title and body are required.';
         errEl.hidden = false;
@@ -486,14 +669,14 @@
 
       const btn = document.getElementById('btn-notif-send');
       btn.disabled = true;
-      btn.textContent = 'Sending…';
+      btn.textContent = 'Sending...';
 
       try {
         const result = await apiFetch('/admin/notifications/send', {
           method: 'POST',
           body: JSON.stringify({ title, body }),
         });
-        showToast(`Notification sent to ${result.sent} device(s).`);
+        showToast(`Notification sent to ${formatNumber(result.sent || 0)} device(s).`);
         document.getElementById('notif-form').reset();
         loadNotifStats();
         loadNotifLog();
@@ -506,42 +689,447 @@
       }
     });
 
-    // ── Helpers ────────────────────────────────────────────────────────────────
+    // Users & Usage ----------------------------------------------------------
+    document.getElementById('btn-users-refresh').addEventListener('click', () => refreshUsersDashboard(true));
+    document.getElementById('btn-users-apply').addEventListener('click', () => refreshUsersDashboard(true));
+    document.getElementById('btn-detail-refresh').addEventListener('click', () => {
+      if (selectedUserUid) loadUserDetail(selectedUserUid, true);
+    });
+    document.getElementById('btn-delete-user').addEventListener('click', deleteSelectedUser);
+
+    ['users-search', 'users-sub-filter', 'users-limit'].forEach(id => {
+      const el = document.getElementById(id);
+      const event = id === 'users-search' ? 'keydown' : 'change';
+      el.addEventListener(event, e => {
+        if (event === 'keydown' && e.key !== 'Enter') return;
+        refreshUsersDashboard(true);
+      });
+    });
+
+    document.getElementById('user-edit-form').addEventListener('submit', saveSelectedUser);
+
+    async function refreshUsersDashboard(force = false) {
+      if (!force && usersLoaded) return;
+      await Promise.all([loadUsersStats(), loadUsersList()]);
+      usersLoaded = true;
+    }
+
+    async function loadUsersStats() {
+      try {
+        const data = await apiFetch('/admin/users/stats');
+        document.getElementById('u-stat-total').textContent = formatNumber(data.totalUsers);
+        document.getElementById('u-stat-active-sub').textContent = formatNumber(data.activeSubscriptions);
+        document.getElementById('u-stat-expired-sub').textContent = formatNumber(data.expiredSubscriptions);
+        document.getElementById('u-stat-no-sub').textContent = formatNumber(data.noSubscription);
+        document.getElementById('u-stat-active-7d').textContent = formatNumber(data.activeInLast7d);
+        document.getElementById('u-stat-new-7d').textContent = formatNumber(data.accountsCreated7d);
+        document.getElementById('u-stat-api-7d').textContent = formatNumber(data.totalApiCalls7d);
+        document.getElementById('u-stat-api-30d').textContent = formatNumber(data.totalApiCalls30d);
+
+        const noteEl = document.getElementById('users-tracking-note');
+        if (data.requestTrackingNote) {
+          noteEl.textContent = data.requestTrackingNote;
+          noteEl.hidden = false;
+        } else {
+          noteEl.hidden = true;
+        }
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    async function loadUsersList() {
+      const list = document.getElementById('users-list');
+      list.innerHTML = '<div class="loading-state">Loading users...</div>';
+
+      const search = encodeURIComponent(document.getElementById('users-search').value.trim());
+      const subscriptionStatus = encodeURIComponent(document.getElementById('users-sub-filter').value);
+      const limit = encodeURIComponent(document.getElementById('users-limit').value);
+
+      try {
+        const data = await apiFetch(`/admin/users?search=${search}&subscriptionStatus=${subscriptionStatus}&limit=${limit}`);
+        renderUsersList(data.users || [], data.totalMatched || 0, data.requestTrackingNote || null);
+      } catch (err) {
+        list.innerHTML = `<div class="empty-state error-state">${escHtml(err.message)}</div>`;
+      }
+    }
+
+    function renderUsersList(users, totalMatched, requestTrackingNote) {
+      const list = document.getElementById('users-list');
+
+      if (requestTrackingNote) {
+        const noteEl = document.getElementById('users-tracking-note');
+        noteEl.textContent = requestTrackingNote;
+        noteEl.hidden = false;
+      }
+
+      if (!users.length) {
+        list.innerHTML = '<div class="empty-state">No users found for this filter.</div>';
+        return;
+      }
+
+      list.innerHTML = `
+        <div class="list-summary">Showing ${formatNumber(users.length)} of ${formatNumber(totalMatched)} matched users</div>
+        ${users.map(user => renderUserCard(user)).join('')}
+      `;
+    }
+
+    function renderUserCard(user) {
+      const displayName = user.displayName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.email || user.uid;
+      const subStatus = normalizeSubStatus(user.subscription?.status);
+      const subLabel = subStatus === 'active' ? 'Active' : subStatus === 'expired' ? 'Expired' : 'None';
+      const subBadgeClass = subStatus === 'active' ? 'live' : subStatus === 'expired' ? 'scheduled' : 'archived';
+
+      return `
+        <div class="message-card user-card">
+          <div class="user-card-top">
+            <div>
+              <div class="message-title-row">
+                <span class="message-title">${escHtml(displayName)}</span>
+                <span class="badge badge-${subBadgeClass}">Sub: ${subLabel}</span>
+                ${user.accountDisabled ? '<span class="badge badge-archived">Disabled</span>' : ''}
+              </div>
+              <div class="message-meta">
+                ${escHtml(user.email || 'No email')} · UID: ${escHtml(user.uid)}
+              </div>
+            </div>
+            <button class="btn-sm btn-primary-sm" onclick="openUserDetail('${escAttr(user.uid)}')">Manage</button>
+          </div>
+          <div class="user-card-metrics">
+            <span>Requests 7d: <strong>${formatNumber(user.metrics?.requests7d || 0)}</strong></span>
+            <span>Requests 30d: <strong>${formatNumber(user.metrics?.requests30d || 0)}</strong></span>
+            <span>Check-ins: <strong>${formatNumber(user.metrics?.totalCheckIns || 0)}</strong></span>
+            <span>Insights: <strong>${formatNumber(user.metrics?.totalInsights || 0)}</strong></span>
+            <span>Devices: <strong>${formatNumber(user.metrics?.deviceCount || 0)}</strong></span>
+            <span>Last API Activity: <strong>${formatDate(user.lastApiActivityAt)}</strong></span>
+          </div>
+        </div>
+      `;
+    }
+
+    window.openUserDetail = async (uid) => {
+      await loadUserDetail(uid, true);
+    };
+
+    async function loadUserDetail(uid, force = false) {
+      if (!uid) return;
+      const detailShell = document.getElementById('user-detail-shell');
+      detailShell.hidden = false;
+      document.getElementById('detail-name').textContent = 'Loading user...';
+      document.getElementById('detail-subtitle').textContent = '';
+      selectedUserUid = uid;
+
+      try {
+        const data = await apiFetch(`/admin/users/${encodeURIComponent(uid)}`);
+        const user = data.user;
+        if (!user) throw new Error('User not found');
+        renderUserDetail(user, data.requestTrackingNote || null);
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    function renderUserDetail(user, requestTrackingNote) {
+      selectedUserUid = user.uid;
+      const displayName = user.displayName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.email || user.uid;
+      document.getElementById('detail-name').textContent = displayName;
+      document.getElementById('detail-subtitle').textContent =
+        `${user.email || 'No email'} · UID: ${user.uid} · Last API Activity: ${formatDate(user.lastApiActivityAt)}`;
+
+      document.getElementById('detail-first-name').value = user.firstName || '';
+      document.getElementById('detail-last-name').value = user.lastName || '';
+      document.getElementById('detail-gender').value = user.gender || '';
+      document.getElementById('detail-dob').value = dateInputValue(user.dateOfBirth);
+
+      const subStatus = normalizeSubStatus(user.subscription?.status);
+      document.getElementById('detail-sub-status').value = subStatus;
+      document.getElementById('detail-sub-product').value = user.subscription?.productId || '';
+
+      const notif = user.notificationSettings || {};
+      document.getElementById('detail-checkin-frequency').value = notif.checkInReminderFrequency || 'often';
+      document.getElementById('detail-insights-frequency').value = notif.insightsFrequency || 'infrequent';
+      document.getElementById('detail-notif-enabled').checked = Boolean(notif.isEnabled);
+      document.getElementById('detail-onboarding').checked = Boolean(user.onboardingComplete);
+      document.getElementById('detail-account-disabled').checked = Boolean(user.accountDisabled);
+
+      const metrics = user.metrics || {};
+      document.getElementById('d-metric-tracked').textContent = formatNumber(metrics.trackedRequests || 0);
+      document.getElementById('d-metric-7d').textContent = formatNumber(metrics.requests7d || 0);
+      document.getElementById('d-metric-30d').textContent = formatNumber(metrics.requests30d || 0);
+      document.getElementById('d-metric-errors').textContent = formatNumber(metrics.errorRequests30d || 0);
+      document.getElementById('d-metric-duration').textContent = formatDuration(metrics.averageDurationMs30d || 0);
+      document.getElementById('d-metric-checkins').textContent = formatNumber(metrics.totalCheckIns || 0);
+      document.getElementById('d-metric-insights').textContent = formatNumber(metrics.totalInsights || 0);
+      document.getElementById('d-metric-devices').textContent = formatNumber(metrics.deviceCount || 0);
+
+      renderEndpointBreakdown(user.endpointBreakdown || []);
+      renderRecentRequests(user.recentRequests || []);
+      renderDevices(user.devices || []);
+
+      if (requestTrackingNote) {
+        const noteEl = document.getElementById('users-tracking-note');
+        noteEl.textContent = requestTrackingNote;
+        noteEl.hidden = false;
+      }
+
+      document.getElementById('user-form-error').hidden = true;
+      document.getElementById('user-detail-shell').hidden = false;
+      document.getElementById('user-detail-shell').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function renderEndpointBreakdown(rows) {
+      const container = document.getElementById('detail-endpoint-breakdown');
+      if (!rows.length) {
+        container.innerHTML = '<div class="empty-state">No tracked endpoint activity yet.</div>';
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Route</th>
+                <th>Count</th>
+                <th>Errors</th>
+                <th>Avg Duration</th>
+                <th>Last Used</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map(row => `
+                <tr>
+                  <td>${escHtml(row.method || '-')}</td>
+                  <td>${escHtml(row.route || '-')}</td>
+                  <td>${formatNumber(row.count || 0)}</td>
+                  <td>${formatNumber(row.errorCount || 0)}</td>
+                  <td>${formatDuration(row.averageDurationMs || 0)}</td>
+                  <td>${formatDate(row.lastUsedAt)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderRecentRequests(rows) {
+      const container = document.getElementById('detail-recent-requests');
+      if (!rows.length) {
+        container.innerHTML = '<div class="empty-state">No tracked requests yet.</div>';
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>When</th>
+                <th>Method</th>
+                <th>Route</th>
+                <th>Status</th>
+                <th>Duration</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map(row => `
+                <tr>
+                  <td>${formatDate(row.createdAt)}</td>
+                  <td>${escHtml(row.method || '-')}</td>
+                  <td>${escHtml(row.route || '-')}</td>
+                  <td>${formatNumber(row.statusCode || 0)}</td>
+                  <td>${formatDuration(row.durationMs || 0)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderDevices(rows) {
+      const container = document.getElementById('detail-devices');
+      if (!rows.length) {
+        container.innerHTML = '<div class="empty-state">No registered devices.</div>';
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Platform</th>
+                <th>Token Preview</th>
+                <th>Timezone Offset</th>
+                <th>Created</th>
+                <th>Updated</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map(row => `
+                <tr>
+                  <td>${escHtml(row.platform || 'ios')}</td>
+                  <td>${escHtml(row.tokenPreview || '-')}</td>
+                  <td>${row.timezoneOffset == null ? '-' : escHtml(String(row.timezoneOffset))}</td>
+                  <td>${formatDate(row.createdAt)}</td>
+                  <td>${formatDate(row.updatedAt)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    async function saveSelectedUser(e) {
+      e.preventDefault();
+      if (!selectedUserUid) return;
+
+      const payload = {
+        firstName: document.getElementById('detail-first-name').value.trim(),
+        lastName: document.getElementById('detail-last-name').value.trim(),
+        gender: document.getElementById('detail-gender').value || null,
+        dateOfBirth: document.getElementById('detail-dob').value
+          ? new Date(document.getElementById('detail-dob').value).toISOString()
+          : null,
+        onboardingComplete: document.getElementById('detail-onboarding').checked,
+        notificationSettings: {
+          isEnabled: document.getElementById('detail-notif-enabled').checked,
+          checkInReminderFrequency: document.getElementById('detail-checkin-frequency').value,
+          insightsFrequency: document.getElementById('detail-insights-frequency').value,
+        },
+        subscriptionStatus: document.getElementById('detail-sub-status').value,
+        subscriptionProductId: normalizeSubStatus(document.getElementById('detail-sub-status').value) === 'none'
+          ? null
+          : (document.getElementById('detail-sub-product').value.trim() || null),
+        accountDisabled: document.getElementById('detail-account-disabled').checked,
+      };
+
+      const errEl = document.getElementById('user-form-error');
+      const btn = document.getElementById('btn-user-save');
+      errEl.hidden = true;
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+
+      try {
+        await apiFetch(`/admin/users/${encodeURIComponent(selectedUserUid)}`, {
+          method: 'PATCH',
+          body: JSON.stringify(payload),
+        });
+        showToast('User account updated.');
+        await Promise.all([loadUsersStats(), loadUsersList(), loadUserDetail(selectedUserUid, true)]);
+      } catch (err) {
+        errEl.textContent = err.message;
+        errEl.hidden = false;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Save Account Changes';
+      }
+    }
+
+    async function deleteSelectedUser() {
+      if (!selectedUserUid) return;
+      const typed = prompt(`Type the UID below to permanently delete this account:\n${selectedUserUid}`);
+      if (typed === null) return;
+      if (typed.trim() !== selectedUserUid) {
+        showToast('UID mismatch. Account deletion cancelled.', true);
+        return;
+      }
+
+      const btn = document.getElementById('btn-delete-user');
+      btn.disabled = true;
+      btn.textContent = 'Deleting...';
+
+      try {
+        await apiFetch(`/admin/users/${encodeURIComponent(selectedUserUid)}`, { method: 'DELETE' });
+        showToast('User account deleted.');
+        selectedUserUid = null;
+        document.getElementById('user-detail-shell').hidden = true;
+        await Promise.all([loadUsersStats(), loadUsersList()]);
+      } catch (err) {
+        showToast(err.message, true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Delete Account';
+      }
+    }
+
+    // Helpers ----------------------------------------------------------------
     function escHtml(str) {
-      return String(str)
+      return String(str ?? '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function escAttr(str) {
+      return String(str ?? '')
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, "\\'");
     }
 
     function formatDate(iso) {
-      if (!iso) return '—';
-      return new Date(iso).toLocaleString(undefined, {
-        month: 'short', day: 'numeric', year: 'numeric',
-        hour: '2-digit', minute: '2-digit',
+      if (!iso) return '-';
+      const date = new Date(iso);
+      if (Number.isNaN(date.getTime())) return '-';
+      return date.toLocaleString(undefined, {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
       });
+    }
+
+    function dateInputValue(iso) {
+      if (!iso) return '';
+      const date = new Date(iso);
+      if (Number.isNaN(date.getTime())) return '';
+      const yyyy = date.getUTCFullYear();
+      const mm = String(date.getUTCMonth() + 1).padStart(2, '0');
+      const dd = String(date.getUTCDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function formatNumber(value) {
+      const n = Number(value || 0);
+      if (!Number.isFinite(n)) return '0';
+      return n.toLocaleString();
+    }
+
+    function formatDuration(ms) {
+      const n = Number(ms || 0);
+      if (!Number.isFinite(n) || n <= 0) return '-';
+      return `${Math.round(n)} ms`;
     }
 
     function toDatetimeLocal(date) {
       const pad = n => String(n).padStart(2, '0');
-      return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
     }
 
-    function statusClass(m) {
-      if (m.status === 'archived') return 'archived';
-      if (m.scheduledAt && new Date(m.scheduledAt) > new Date()) return 'scheduled';
+    function statusClass(message) {
+      if (message.status === 'archived') return 'archived';
+      if (message.scheduledAt && new Date(message.scheduledAt) > new Date()) return 'scheduled';
       return 'live';
     }
 
-    function statusLabel(m) {
-      if (m.status === 'archived') return 'Archived';
-      if (m.scheduledAt && new Date(m.scheduledAt) > new Date()) return 'Scheduled';
+    function statusLabel(message) {
+      if (message.status === 'archived') return 'Archived';
+      if (message.scheduledAt && new Date(message.scheduledAt) > new Date()) return 'Scheduled';
       return 'Live';
     }
 
-    // Simple markdown renderer for preview:
-    // supports **bold**, *italic*, [text](url), line breaks
+    function normalizeSubStatus(value) {
+      const normalized = String(value || '').toLowerCase().trim();
+      return ['active', 'expired', 'none'].includes(normalized) ? normalized : 'none';
+    }
+
     function renderMarkdown(text) {
       return escHtml(text)
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
