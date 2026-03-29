@@ -48,6 +48,8 @@ Static marketing/legal site. No build step. Pure HTML + CSS + JS.
 
 All styles are in `styles.css`. Read `WEBSITE.md` before editing visual styles or content — it has guardrails on fonts, colors, tone, and section structure.
 
+The landing page hero currently includes a simple "Coming soon" note in the heading font, and the shared `brand-logo` sizing was increased slightly for the top navigation and footer.
+
 ## Deploying Changes
 
 Push to `citobus/lunevo-site` main branch → Cloudflare Pages deploys automatically. No build command needed.
